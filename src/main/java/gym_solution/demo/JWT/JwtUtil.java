@@ -2,22 +2,26 @@ package gym_solution.demo.JWT;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private String secret = "secretKey";
+    // ⚠️ minimum 32 caractères
+    private final String secret = "my-super-secret-key-my-super-secret-key";
+
+    private final Key key = Keys.hmacShaKeyFor(secret.getBytes());
 
     public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(username) // ✅ CORRECT pour 0.11.5
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(key)
                 .compact();
     }
 
@@ -26,6 +30,10 @@ public class JwtUtil {
     }
 
     private Claims getClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder() // ⚠️ changé ici
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

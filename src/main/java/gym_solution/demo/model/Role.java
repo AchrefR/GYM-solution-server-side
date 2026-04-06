@@ -1,10 +1,8 @@
 package gym_solution.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,9 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "role")
+@Builder
 public class Role {
     @Id
-    private String roleId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long roleId;
 
     private String roleName;
 
