@@ -27,4 +27,8 @@ public class Notification {
     private boolean isRead;
 
     private Date createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
 }

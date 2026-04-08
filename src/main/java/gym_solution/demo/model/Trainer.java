@@ -6,31 +6,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+import java.util.Date;
 @Entity
-@Table(name = "user")
+@Table(name = "trainer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class Trainer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private Long trainerId;
+
+    private String firstName;
+
+    private Long lastName;
 
     private String email;
 
-    private String password;
+    private String phone;
 
-    @ManyToOne
-    @JoinColumn(name = "roleId")
-    private Role role;
+    private Date dateOfBirth;
 
-    @OneToOne(mappedBy = "user")
-    private Member member;
+    private String gender;
 
-    @OneToMany(mappedBy = "user")
-    private List<Notification> notification;
 
 }
