@@ -25,15 +25,15 @@ public class WorkoutSession {
 
     private String title;
 
-    private Long description;
+    private String description;
 
-    private Date date;
+    private String date;
 
-    private Time startTime;
+    private String startTime;
 
-    private Time endTime;
+    private String endTime;
 
-    private int duration;
+    private String duration;
 
     @ManyToMany(mappedBy = "workoutSessions")
     List<Member> members;

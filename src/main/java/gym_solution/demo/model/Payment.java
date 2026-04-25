@@ -3,6 +3,7 @@ package gym_solution.demo.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 public class Payment {
 
     @Id
@@ -20,7 +22,7 @@ public class Payment {
 
     private double amount;
 
-    private Date date;
+    private String date;
 
     private String method;
 
