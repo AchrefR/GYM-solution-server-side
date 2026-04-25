@@ -1,6 +1,6 @@
 package gym_solution.demo.JWT;
 
-import gym_solution.demo.service.CustomUserDetailsService;
+import gym_solution.demo.service.serviceImpl.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

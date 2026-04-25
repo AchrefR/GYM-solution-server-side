@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "trainer")
 @Data
@@ -21,15 +23,22 @@ public class Trainer {
 
     private String firstName;
 
-    private Long lastName;
+    private String lastName;
 
     private String email;
 
     private String phone;
 
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     private String gender;
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE,CascadeType.MERGE})
+    @JoinColumn(name = "userId")
+    private User user;
+
+    @OneToMany(mappedBy = "trainer")
+    List<Member> members;
 
 
 }

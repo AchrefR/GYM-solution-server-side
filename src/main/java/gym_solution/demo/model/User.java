@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.server.reactive.AbstractListenerWriteFlushProcessor;
 
 import java.util.List;
 
@@ -32,5 +33,12 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Notification> notification;
+
+    @OneToOne(mappedBy = "user")
+    Administrator administrator;
+
+    @OneToOne(mappedBy = "user")
+    Trainer trainer;
+
 
 }

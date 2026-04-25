@@ -1,22 +1,16 @@
-package gym_solution.demo.model;
+package gym_solution.demo.dto.response;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-@Entity
-@Table(name = "administrator")
-@Data
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
 @Builder
-public class Administrator {
+public class AdministratorResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long administratorId;
 
     private String firstName;
@@ -30,8 +24,5 @@ public class Administrator {
     private String dateOfBirth;
 
     private String gender;
-
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-    @JoinColumn(name = "userId")
-    User user;
+    
 }

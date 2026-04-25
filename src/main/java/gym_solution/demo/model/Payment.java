@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long paymentId;
@@ -25,6 +26,7 @@ public class Payment {
 
     private String status;
 
-    @OneToOne(mappedBy = "payment")
+    @ManyToOne
+    @JoinColumn(name = "subscriptionID")
     private Subscription subscription;
 }

@@ -9,11 +9,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Builder
-public class UserDTO {
+public class SubscriptionDTO {
 
-    private String email;
+    private String type;
 
-    private String password;
+    private double price;
 
-    private String roleName;
+    private String startDate;
+
+    private String endDate;
+
+    private Long memberId;
+
 }

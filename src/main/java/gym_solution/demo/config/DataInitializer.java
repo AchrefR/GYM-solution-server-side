@@ -53,8 +53,13 @@ public class DataInitializer implements CommandLineRunner {
         {
             throw new RuntimeException("role is not found !");
         }
-        User admin = User.builder().email("admin@admin").password(this.passwordEncoder.encode("admin")).role(admin_Role.get()).build();
-        this.userRepository.save(admin);
+        Optional<User> userTest = this.userRepository.findByEmail("admin@admin");
+        if(userTest.isEmpty())
+        {
+            User admin = User.builder().email("admin@admin").password(this.passwordEncoder.encode("admin")).role(admin_Role.get()).build();
+            this.userRepository.save(admin);
+        }
+
 
     }
 

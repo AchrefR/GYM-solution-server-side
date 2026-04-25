@@ -9,11 +9,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Builder
-public class UserDTO {
+public class AdministratorDTO {
+
+    private String firstName;
+
+    private String lastName;
 
     private String email;
 
-    private String password;
+    private String phone;
 
-    private String roleName;
+    private String dateOfBirth;
+
+    private String gender;
+
 }

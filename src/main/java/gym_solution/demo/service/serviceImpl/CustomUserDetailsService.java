@@ -1,4 +1,4 @@
-package gym_solution.demo.service;
+package gym_solution.demo.service.serviceImpl;
 
 import gym_solution.demo.model.User;
 import gym_solution.demo.repository.UserRepository;

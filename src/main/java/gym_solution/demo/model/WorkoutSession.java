@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "workoutSession")
@@ -34,4 +35,6 @@ public class WorkoutSession {
 
     private int duration;
 
+    @ManyToMany(mappedBy = "workoutSessions")
+    List<Member> members;
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,5 +25,8 @@ public class WorkoutPlan {
     private String goal;
 
     private String level;
+
+    @ManyToMany(mappedBy = "workoutPlans")
+    private List<Member> members;
 
 }

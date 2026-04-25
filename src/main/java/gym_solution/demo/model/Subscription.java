@@ -3,15 +3,18 @@ package gym_solution.demo.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "subscription")
 @Builder
+@Data
 public class Subscription {
 
     @Id
@@ -22,15 +25,14 @@ public class Subscription {
 
     private double price;
 
-    private Date startDate;
+    private String startDate;
 
-    private Date endDate;
+    private String endDate;
 
     @ManyToOne
     @JoinColumn(name = "memberId")
     Member member;
 
-    @OneToOne
-    @JoinColumn(name = "paymentId")
-    Payment payment;
+    @OneToMany(mappedBy = "subscription")
+    List<Payment> payments;
 }
