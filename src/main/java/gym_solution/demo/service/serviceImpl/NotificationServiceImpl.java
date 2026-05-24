@@ -1,0 +1,60 @@
+package gym_solution.demo.service.serviceImpl;
+
+import gym_solution.demo.dto.NotificationDTO;
+import gym_solution.demo.dto.response.NotificationResponseDTO;
+import gym_solution.demo.mapper.NotificationMapper;
+import gym_solution.demo.model.Notification;
+
+import gym_solution.demo.repository.NotificationRepository;
+import gym_solution.demo.repository.UserRepository;
+import gym_solution.demo.service.NotificationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class NotificationServiceImpl implements NotificationService {
+
+    private final NotificationMapper notificationMapper;
+
+    private final NotificationRepository notificationRepository;
+
+    private final UserRepository userRepository;
+
+    @Override
+    public NotificationResponseDTO addNotification(NotificationDTO notificationDTO) {
+        return this.notificationMapper.toResponse(this.notificationRepository.save(this.notificationMapper.toNotification(notificationDTO)));
+    }
+
+    @Override
+    public NotificationResponseDTO updateNotification(NotificationResponseDTO notificationResponseDTO) {
+        Notification notification = this.notificationRepository.findById(notificationResponseDTO.getNotificationId()).orElseThrow(() -> new RuntimeException("notification is not found"));
+        notification.setTitle(notificationResponseDTO.getTitle());
+        notification.setMessage(notificationResponseDTO.getMessage());
+        notification.setType(notificationResponseDTO.getType());
+        notification.setRead(notificationResponseDTO.isRead());
+        notification.setCreatedAt(notificationResponseDTO.getCreatedAt());
+        return this.notificationMapper.toResponse(this.notificationRepository.save(notification));
+
+    }
+
+    @Override
+    public void deleteNotificationById(Long id) {
+        this.notificationRepository.deleteById(id);
+    }
+
+    @Override
+    public NotificationResponseDTO findNotificationById(Long id) {
+        return this.notificationMapper.toResponse(this.notificationRepository.findById(id).orElseThrow(() -> new RuntimeException("notification is not found")));
+    }
+
+    @Override
+    public List<NotificationResponseDTO> findAllNotifications() {
+        return this.notificationMapper.toResponses(this.notificationRepository.findAll());
+    }
+
+
+}

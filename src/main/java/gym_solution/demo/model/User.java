@@ -31,8 +31,8 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Member member;
 
-    @OneToMany(mappedBy = "user")
-    private List<Notification> notification;
+    @ManyToMany(mappedBy = "users")
+    private List<Notification> notifications;
 
     @OneToOne(mappedBy = "user")
     Administrator administrator;

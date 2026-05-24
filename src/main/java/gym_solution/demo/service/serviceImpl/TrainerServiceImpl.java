@@ -8,7 +8,6 @@ import gym_solution.demo.model.Trainer;
 import gym_solution.demo.model.User;
 import gym_solution.demo.repository.RoleRepository;
 import gym_solution.demo.repository.TrainerRepository;
-import gym_solution.demo.repository.UserRepository;
 import gym_solution.demo.service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

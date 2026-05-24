@@ -30,7 +30,6 @@ public class PaymentServiceImpl implements PaymentService {
                 orElseThrow(() -> new RuntimeException("subscription is not found"));
 
         Payment payment = this.paymentMapper.toPayment(paymentDTO);
-
         payment.setSubscription(subscription);
 
         return this.paymentMapper.toResponse(this.paymentRepository.save(payment));

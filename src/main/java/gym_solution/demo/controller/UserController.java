@@ -2,12 +2,8 @@ package gym_solution.demo.controller;
 
 import gym_solution.demo.dto.UserDTO;
 import gym_solution.demo.dto.response.UserResponseDTO;
-import gym_solution.demo.mapper.UserMapper;
-import gym_solution.demo.model.User;
-import gym_solution.demo.repository.UserRepository;
 import gym_solution.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -21,13 +21,13 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long subscriptionId;
 
-    private String type;
-
     private double price;
 
     private String startDate;
 
     private String endDate;
+
+    private String type;
 
     @ManyToOne
     @JoinColumn(name = "memberId")

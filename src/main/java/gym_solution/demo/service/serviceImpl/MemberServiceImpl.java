@@ -6,17 +6,18 @@ import gym_solution.demo.mapper.MemberMapper;
 import gym_solution.demo.model.Member;
 import gym_solution.demo.model.Role;
 import gym_solution.demo.model.User;
+
 import gym_solution.demo.repository.MemberRepository;
 import gym_solution.demo.repository.RoleRepository;
-import gym_solution.demo.repository.UserRepository;
 import gym_solution.demo.service.MemberService;
-import gym_solution.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -55,6 +56,7 @@ public class MemberServiceImpl implements MemberService {
         return this.memberMapper.toResponse(this.memberRepository.save(member));
     }
 
+
     @Override
     public void deleteMemberById(Long id) {
         this.memberRepository.deleteById(id);
@@ -69,4 +71,6 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberResponseDTO> findAllMembers() {
         return this.memberMapper.toResponses(this.memberRepository.findAll());
     }
+
+
 }

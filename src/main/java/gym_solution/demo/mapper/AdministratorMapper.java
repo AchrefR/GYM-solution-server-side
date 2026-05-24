@@ -3,12 +3,16 @@ package gym_solution.demo.mapper;
 import gym_solution.demo.dto.AdministratorDTO;
 import gym_solution.demo.dto.response.AdministratorResponseDTO;
 import gym_solution.demo.model.Administrator;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
 @Component
+@Builder
 public class AdministratorMapper {
 
     public Administrator toAdministrator(AdministratorDTO administratorDTO) {

@@ -25,7 +25,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public SubscriptionResponseDTO addSubscription(SubscriptionDTO subscriptionDTO) {
-
         Member member = this.memberRepository.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new RuntimeException("member not found"));
         Subscription subscription = Subscription.builder().
                 type(subscriptionDTO.getType()).

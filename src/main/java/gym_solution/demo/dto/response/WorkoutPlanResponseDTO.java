@@ -1,23 +1,16 @@
-package gym_solution.demo.model;
+package gym_solution.demo.dto.response;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Entity
 @AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "workoutPlan")
-@Builder
 @Data
-public class WorkoutPlan {
+@NoArgsConstructor
+@Builder
+public class WorkoutPlanResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long workoutPlanId;
 
     private String name;
@@ -27,8 +20,5 @@ public class WorkoutPlan {
     private String goal;
 
     private String level;
-
-    @ManyToMany(mappedBy = "workoutPlans")
-    private List<Member> members;
 
 }
