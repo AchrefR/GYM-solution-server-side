@@ -3,6 +3,7 @@ package gym_solution.demo.controller;
 import gym_solution.demo.dto.UserDTO;
 import gym_solution.demo.dto.response.UserResponseDTO;
 import gym_solution.demo.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/")
-    public UserResponseDTO addUser(@RequestBody UserDTO userDTO) {
+    public UserResponseDTO addUser(@Valid @RequestBody UserDTO userDTO) {
 
         return this.userService.addUser(userDTO);
 

@@ -1,8 +1,10 @@
 package gym_solution.demo.controller;
 
 import gym_solution.demo.dto.TrainerDTO;
+import gym_solution.demo.dto.response.MemberResponseDTO;
 import gym_solution.demo.dto.response.TrainerResponseDTO;
 import gym_solution.demo.service.TrainerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,7 @@ public class TrainerController {
     private final TrainerService trainerService;
 
     @PostMapping("/")
-    TrainerResponseDTO add(@RequestBody TrainerDTO trainerDTO) {
+    TrainerResponseDTO add(@Valid @RequestBody TrainerDTO trainerDTO) {
         return this.trainerService.addTrainer(trainerDTO);
     }
 
@@ -38,5 +40,10 @@ public class TrainerController {
     @GetMapping("/")
     List<TrainerResponseDTO> findAll() {
         return this.trainerService.findAllTrainers();
+    }
+
+    @GetMapping("/{id}/members")
+    List<MemberResponseDTO> findMembers(@PathVariable Long id) {
+        return this.trainerService.findMembersByTrainerId(id);
     }
 }

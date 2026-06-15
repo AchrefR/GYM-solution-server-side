@@ -2,6 +2,7 @@ package gym_solution.demo.service.serviceImpl;
 
 import gym_solution.demo.dto.NotificationDTO;
 import gym_solution.demo.dto.response.NotificationResponseDTO;
+import gym_solution.demo.exception.NotFoundException;
 import gym_solution.demo.mapper.NotificationMapper;
 import gym_solution.demo.model.Notification;
 
@@ -11,6 +12,7 @@ import gym_solution.demo.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Slf4j
@@ -25,13 +27,15 @@ public class NotificationServiceImpl implements NotificationService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public NotificationResponseDTO addNotification(NotificationDTO notificationDTO) {
         return this.notificationMapper.toResponse(this.notificationRepository.save(this.notificationMapper.toNotification(notificationDTO)));
     }
 
     @Override
+    @Transactional
     public NotificationResponseDTO updateNotification(NotificationResponseDTO notificationResponseDTO) {
-        Notification notification = this.notificationRepository.findById(notificationResponseDTO.getNotificationId()).orElseThrow(() -> new RuntimeException("notification is not found"));
+        Notification notification = this.notificationRepository.findById(notificationResponseDTO.getNotificationId()).orElseThrow(() -> new NotFoundException("Notification with id " + notificationResponseDTO.getNotificationId() + " not found"));
         notification.setTitle(notificationResponseDTO.getTitle());
         notification.setMessage(notificationResponseDTO.getMessage());
         notification.setType(notificationResponseDTO.getType());
@@ -42,13 +46,17 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @Transactional
     public void deleteNotificationById(Long id) {
+        if (!this.notificationRepository.existsById(id)) {
+            throw new NotFoundException("Notification with id " + id + " not found");
+        }
         this.notificationRepository.deleteById(id);
     }
 
     @Override
     public NotificationResponseDTO findNotificationById(Long id) {
-        return this.notificationMapper.toResponse(this.notificationRepository.findById(id).orElseThrow(() -> new RuntimeException("notification is not found")));
+        return this.notificationMapper.toResponse(this.notificationRepository.findById(id).orElseThrow(() -> new NotFoundException("Notification with id " + id + " not found")));
     }
 
     @Override

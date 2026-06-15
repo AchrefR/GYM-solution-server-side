@@ -2,6 +2,7 @@ package gym_solution.demo.service.serviceImpl;
 
 import gym_solution.demo.dto.SubscriptionDTO;
 import gym_solution.demo.dto.response.SubscriptionResponseDTO;
+import gym_solution.demo.exception.NotFoundException;
 import gym_solution.demo.mapper.SubscriptionMapper;
 import gym_solution.demo.model.Member;
 import gym_solution.demo.model.Subscription;
@@ -10,6 +11,7 @@ import gym_solution.demo.repository.SubscriptionRepository;
 import gym_solution.demo.service.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,8 +26,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public SubscriptionResponseDTO addSubscription(SubscriptionDTO subscriptionDTO) {
-        Member member = this.memberRepository.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new RuntimeException("member not found"));
+        Member member = this.memberRepository.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new NotFoundException("Member with id " + subscriptionDTO.getMemberId() + " not found"));
         Subscription subscription = Subscription.builder().
                 type(subscriptionDTO.getType()).
                 price(subscriptionDTO.getPrice()).
@@ -37,8 +40,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public SubscriptionResponseDTO updateSubscription(SubscriptionResponseDTO subscriptionDTO) {
-        Subscription subscription = this.subscriptionRepository.findById(subscriptionDTO.getSubscriptionId()).orElseThrow(() -> new RuntimeException("subscription is not found"));
+        Subscription subscription = this.subscriptionRepository.findById(subscriptionDTO.getSubscriptionId()).orElseThrow(() -> new NotFoundException("Subscription with id " + subscriptionDTO.getSubscriptionId() + " not found"));
         subscription.setType(subscriptionDTO.getType());
         subscription.setPrice(subscriptionDTO.getPrice());
         subscription.setStartDate(subscriptionDTO.getStartDate());
@@ -47,13 +51,17 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional
     public void deleteSubscriptionById(Long id) {
+        if (!this.subscriptionRepository.existsById(id)) {
+            throw new NotFoundException("Subscription with id " + id + " not found");
+        }
         this.subscriptionRepository.deleteById(id);
     }
 
     @Override
     public SubscriptionResponseDTO findSubscriptionById(Long id) {
-        return this.subscriptionMapper.toResponse(this.subscriptionRepository.findById(id).orElseThrow(() -> new RuntimeException("subscription is not found")));
+        return this.subscriptionMapper.toResponse(this.subscriptionRepository.findById(id).orElseThrow(() -> new NotFoundException("Subscription with id " + id + " not found")));
     }
 
     @Override

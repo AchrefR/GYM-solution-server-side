@@ -1,11 +1,13 @@
 package gym_solution.demo.config;
 
 import gym_solution.demo.model.Role;
+import gym_solution.demo.model.SubscriptionType;
 import gym_solution.demo.model.User;
 import gym_solution.demo.pattern.factory.MemberRole;
 import gym_solution.demo.pattern.factory.RoleFactory;
 import gym_solution.demo.pattern.factory.RoleFactoryImpl;
 import gym_solution.demo.repository.RoleRepository;
+import gym_solution.demo.repository.SubscriptionTypeRepository;
 import gym_solution.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -22,29 +24,24 @@ public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
 
+    private final SubscriptionTypeRepository subscriptionTypeRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
 
         //default roles
-        Optional<Role> adminRoleTest = this.roleRepository.findRoleByRoleName("ADMIN");
-        if (adminRoleTest.isEmpty()) {
-            this.roleRepository.save(RoleFactoryImpl.getInstance().addRole("ADMIN"));
-        }
-        Optional<Role> memberRoleTest = this.roleRepository.findRoleByRoleName("MEMBER");
-        if (memberRoleTest.isEmpty()) {
-
-            this.roleRepository.save(RoleFactoryImpl.getInstance().addRole("MEMBER"));
-        }
-
-        Optional<Role> trainerRoleTest = this.roleRepository.findRoleByRoleName("TRAINER");
-        if (trainerRoleTest.isEmpty()) {
-            this.roleRepository.save(RoleFactoryImpl.getInstance().addRole("TRAINER"));
+        RoleFactory roleFactory = RoleFactoryImpl.getInstance();
+        for (MemberRole memberRole : MemberRole.values()) {
+            String roleName = memberRole.getRoleName();
+            if (this.roleRepository.findRoleByRoleName(roleName).isEmpty()) {
+                this.roleRepository.save(roleFactory.addRole(roleName));
+            }
         }
 
         //user admin account
-        Optional<Role> admin_Role = this.roleRepository.findRoleByRoleName("ADMIN");
+        Optional<Role> admin_Role = this.roleRepository.findRoleByRoleName(MemberRole.ADMIN.getRoleName());
         if (admin_Role.isEmpty()) {
             throw new RuntimeException("role is not found !");
         }
@@ -54,8 +51,25 @@ public class DataInitializer implements CommandLineRunner {
             this.userRepository.save(admin);
         }
 
-
+        // default subscription plan catalog
+        seedSubscriptionType("Basic", 29, 1,
+                "Gym Access,Locker Room,1 Group Class/month");
+        seedSubscriptionType("Pro", 59, 1,
+                "Unlimited Gym & Classes,Locker Room,Basic App Access,1 PT Session");
+        seedSubscriptionType("Elite", 99, 1,
+                "All Pro Features,Unlimited PT Sessions,GymFlow AI Coach,Dieting Programs,VIP Sauna");
     }
 
+    private void seedSubscriptionType(String name, double price, int durationMonths, String features) {
+        if (this.subscriptionTypeRepository.findByName(name).isEmpty()) {
+            this.subscriptionTypeRepository.save(
+                    SubscriptionType.builder()
+                            .name(name)
+                            .price(price)
+                            .durationMonths(durationMonths)
+                            .features(features)
+                            .build());
+        }
+    }
 
 }

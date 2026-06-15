@@ -2,9 +2,9 @@ spring:
   application:
     name: demo
   datasource:
-    url: jdbc:mysql://localhost:3307/gym_db?useSSL=false&serverTimezone=UTC
-    username: root
-    password: achref2025
+    url: ${DB_URL:jdbc:mysql://localhost:3307/gym_db?useSSL=false&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:achref2025}
 
   jpa:
     hibernate:
@@ -17,6 +17,11 @@ spring:
   jackson:
     serialization:
       indent-output: true
+
+# JWT settings. In production, ALWAYS override JWT_SECRET with a strong random value (>= 32 chars).
+jwt:
+  secret: ${JWT_SECRET:change-me-in-production-use-a-32-char-min-secret}
+  expiration: ${JWT_EXPIRATION:86400000}
 
 server:
   port: 8080

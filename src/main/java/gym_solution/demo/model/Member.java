@@ -51,7 +51,7 @@ public class Member {
     @JoinTable(
             name = "workoutSession_member",
             joinColumns = @JoinColumn(name = "memberId"),
-            inverseJoinColumns = @JoinColumn(name = "workoutPlanId")
+            inverseJoinColumns = @JoinColumn(name = "workoutSessionId")
     )
     List<WorkoutSession> workoutSessions;
 
